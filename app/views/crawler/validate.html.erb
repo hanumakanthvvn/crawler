@@ -1,0 +1,33 @@
+<% host_name = @data_hash['control']['host_name'] %>
+<div class='head'> <%= @data_hash['control'] %> </div>
+<br/>
+<% data = total_stats(@data_hash['records'], host_name) %>
+Total records: <b> <%= data.count %> </b>
+Total errors: <b><%= data.map{|h| h[:errors_count] }.reduce(:+) %></b>
+Total warnings: <b><%= data.map{|h| h[:warnings_count] }.reduce(:+) %></b>
+<br/>
+<hr/>
+<% data.each do |data_hash| %>
+  <div class='record'>
+    <% data_hash[:record].to_h.each do |key, val| %>
+     "<%= key %>":"<%= val %>"
+     <br/>
+    <% end %>
+   </div>
+   <br/>
+  <div class='error'>
+    <% data_hash[:errors].each do |val| %>
+     <%= val %>
+     <br/>
+    <% end %>
+   </div>
+
+  <div class='warning'>
+    <% data_hash[:warnings].each do |val| %>
+     <%= val %>
+     <br/>
+    <% end %>
+   </div>
+ <br/><br/>
+<% end %>
+
